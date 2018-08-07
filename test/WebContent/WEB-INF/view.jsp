@@ -17,6 +17,32 @@
     $('select').material_select();
 });
       </script>
+      
+      <%
+      		String db = (String) request.getAttribute("db");
+      %>
+      
+      <script>
+			function show(str) {
+			  var xhttp;    
+			  if (str == "") {
+			    document.getElementById("txtHint").innerHTML = "";
+			    return;
+			  }
+			  xhttp = new XMLHttpRequest();
+			  xhttp.onreadystatechange = function() {
+			    if (this.readyState == 4 && this.status == 200) {
+			      document.getElementById("txtHint").innerHTML = this.responseText;
+			    }
+			  };
+			  xhttp.open("GET", "/test/show?q="+str+"&p=${db}", true);
+			  xhttp.send();
+			}
+	</script>
+
+
+
+
 	
 </head>
 <body>
@@ -63,13 +89,13 @@
 	  		ArrayList<String> tables = (ArrayList<String>) request.getAttribute("tables");
 	        boolean wach9lbti = (boolean) request.getAttribute("wach9lbti");
 	        String RequestType = (String) request.getAttribute("requestType");
+	        
 	        //out.println((String) request.getAttribute("requestType"));
 	        if (RequestType!=null){
 	        	if (RequestType.equals("Spatiale")){
 		        	if (!tables.isEmpty()){
 		  				out.println("<div class=\"input-field col s12\">");
 		  				out.println("<select name=\"tablesSource\" id=\"tablesSeletSource\">");
-		  				
 		  				out.println("<option value=\"\" disabled selected>Select Source Layer</option>");
 		  				for(int i=0;i<tables.size();i++){
 		  					out.println("<option value="+tables.get(i)+">"+tables.get(i)+"</option>");
@@ -97,7 +123,7 @@
 		        	
 		        	if (!tables.isEmpty()){
 		  				out.println("<div class=\"input-field col s12\">");
-		  				out.println("<select multiple name=\"tables\" id=\"tablesSelet\">");
+		  				out.println("<select name=\"tables\" id=\"tablesSelet\" onchange=\"show(this.value)\">");
 		  				
 		  				out.println("<option value=\"\" disabled selected>Select Layers</option>");
 		  				for(int i=0;i<tables.size();i++){
@@ -119,6 +145,9 @@
   			
   		
 	  	%>
+	  	
+	  	
+	  	<div id="txtHint">Customer info will be listed here...</div>
   </form>
 </body>
 </html>

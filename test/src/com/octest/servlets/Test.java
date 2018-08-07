@@ -112,6 +112,7 @@ public class Test extends HttpServlet {
 			}
 			System.out.println(requestType);
 			request.setAttribute("requestType", requestType);
+			request.setAttribute("db", db);
 			request.setAttribute("tables", tables);
 			request.setAttribute("wach9lbti", wach9lbti);
 			
